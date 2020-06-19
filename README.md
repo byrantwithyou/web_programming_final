@@ -14,3 +14,14 @@ This is the repo for the final project for the Web Programming course at Tongji 
 ### 更新
 #### 完成/撤销
 #### 全部完成/全部未完成
+
+   Refer to gmail app
+
+    # of Active Items
+Button                    Button(To some if selected or to all if unselected)
+.All  ##################  .Delete
+.Act  ##################  .Mark as Complete/Active
+.Cpl  ##################
+      ##################
+      ##################
+                   +(AddButton)
