@@ -31,6 +31,11 @@ document.getElementById("show-archived").onclick = function () {
     currentMode = "archived";
     updateView(currentMode);
 }
+document.getElementById("clr-arch").onclick = function () {
+    items = items.filter(item => item.state != "archived");
+    updateView(currentMode);
+    updateStorage();
+}
 
 updateView(currentMode);
 function updateStorage() {
