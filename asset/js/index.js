@@ -3,6 +3,7 @@ let currentMode = "all";
 if (localStorage.getItem("items")) {
     items = JSON.parse(localStorage.getItem("items"));
 }
+
 document.getElementById("add_btn").onclick = function () {
     if (document.getElementById("new-item").value.length == 0) {
         return;
