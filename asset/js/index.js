@@ -16,6 +16,22 @@ document.getElementById("add_btn").onclick = function () {
     updateView(currentMode);
     updateStorage();
 }
+
+document.getElementById("show-all").onclick = function () {
+    currentMode = "all";
+    updateView(currentMode);
+}
+
+document.getElementById("show-active").onclick = function () {
+    currentMode = "active";
+    updateView(currentMode);
+}
+
+document.getElementById("show-archived").onclick = function () {
+    currentMode = "archived";
+    updateView(currentMode);
+}
+
 updateView(currentMode);
 function updateStorage() {
     localStorage.setItem("items", JSON.stringify(items));
@@ -24,9 +40,9 @@ function updateStorage() {
 function updateView(currentMode) {
     document.getElementById("show-number-item").innerHTML = `${items.filter(
         item => item.state == "active"
-    ).length} active items left`;
+    ).length} active item(s) left`;
     if ("archived" == currentMode) {
-        showItems(items.filter(item => item.state = "archived"));
+        showItems(items.filter(item => item.state == "archived"));
     } else if ("active" == currentMode) {
         showItems(items.filter(item => item.state == "active"))
     } else {
@@ -35,6 +51,7 @@ function updateView(currentMode) {
 }
 
 function showItems(items) {
+    document.getElementById("items").innerHTML = "";
     for (item of items) {
         let ui_state = {
             active: item.state == "active"? "": "style=display:none",
