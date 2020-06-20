@@ -1,12 +1,25 @@
-let items = [{
-    msg: "hello",
-    state: "active"
-}];
+let items = [];
 let currentMode = "all";
 if (localStorage.getItem("items")) {
     items = JSON.parse(localStorage.getItem("items"));
 }
+document.getElementById("add_btn").onclick = function () {
+    if (document.getElementById("new-item").value.length == 0) {
+        return;
+    } else {
+        items.push({
+            msg: document.getElementById("new-item").value,
+            state: "active"
+        })    
+    }
+    updateView(currentMode);
+    updateStorage();
+}
 updateView(currentMode);
+function updateStorage() {
+    localStorage.setItem("items", JSON.stringify(items));
+}
+
 function updateView(currentMode) {
     document.getElementById("show-number-item").innerHTML = `${items.filter(
         item => item.state == "active"
