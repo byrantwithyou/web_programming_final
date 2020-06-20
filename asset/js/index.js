@@ -11,8 +11,9 @@ document.getElementById("add_btn").onclick = function () {
         items.push({
             msg: document.getElementById("new-item").value,
             state: "active"
-        })    
+        });    
     }
+    document.getElementById("new-item").value="";
     updateView(currentMode);
     updateStorage();
 }
@@ -33,6 +34,22 @@ document.getElementById("show-archived").onclick = function () {
 }
 document.getElementById("clr-arch").onclick = function () {
     items = items.filter(item => item.state != "archived");
+    updateView(currentMode);
+    updateStorage();
+}
+
+document.getElementById("ar-all").onclick = function () {
+    items.forEach(item => item.state = "archived");
+    document.getElementById("ar-all").style.display = "none";
+    document.getElementById("ac-all").style.display = "flex";
+    updateView(currentMode);
+    updateStorage();
+}
+
+document.getElementById("ac-all").onclick = function () {
+    items.forEach(item => item.state = "active");
+    document.getElementById("ar-all").style.display = "flex";
+    document.getElementById("ac-all").style.display = "none";
     updateView(currentMode);
     updateStorage();
 }
