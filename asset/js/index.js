@@ -118,7 +118,6 @@ function generator(id, mode) {
         items.forEach(function(element){
             if (element.id == id) {
                 element.state = "archived";
-                return element;
             }
             return element;
         });
