@@ -10,7 +10,8 @@ document.getElementById("add_btn").onclick = function () {
     } else {
         items.push({
             msg: document.getElementById("new-item").value,
-            state: "active"
+            state: "active",
+            id: items.length == 0? 0: Math.max(...items.map(item => item.id))+1
         });    
     }
     document.getElementById("new-item").value="";
@@ -83,13 +84,48 @@ function showItems(items) {
             `<div id="item-container-active" class="flex spc-arnd align-end">
                 <span class="flex">${item.msg}</span>
                 <div class="hght-15"></div>
-                <div class="flex flex-end align-end">
-                    <img class="icon" src="asset/img/undo-solid.svg" ${ui_state.archived}>
-                    <img class="icon" src="asset/img/check-circle-regular.svg" ${ui_state.active}>
-                    <img class="icon"  src="asset/img/trash-solid.svg">
+                <div class="flex flex-end align-end" id=${item.id}>
+                    <img class="icon active" src="asset/img/undo-solid.svg" ${ui_state.archived}>
+                    <img class="icon archive" src="asset/img/check-circle-regular.svg" ${ui_state.active}>
+                    <img class="icon delete"  src="asset/img/trash-solid.svg">
                 </div>
             </div>
             <div class="hght-15"></div>`
         document.getElementById("items").innerHTML += template;
     }
+    Array.from(document.getElementsByClassName("delete")).forEach(element => element.onclick = generator(element.parentElement.id, "delete"));
+    Array.from(document.getElementsByClassName("active")).forEach(element => element.onclick = generator(element.parentElement.id, "active"));
+    Array.from(document.getElementsByClassName("archive")).forEach(element => element.onclick = generator(element.parentElement.id, "archive"));
+}
+function generator(id, mode) {
+    function deleteSingleItem() {
+        items.splice(items.findIndex(element => element.id == id) ,1);
+        updateView(currentMode);
+        updateStorage();    
+    }
+    function activeSingleItem() {
+        items.forEach(function(element){
+            if (element.id == id) {
+                element.state = "active";
+                return element;
+            }
+            return element;
+        });
+        updateView(currentMode);
+        updateStorage();
+    }
+    function archiveSingleItem() {
+        items.forEach(function(element){
+            if (element.id == id) {
+                element.state = "archived";
+                return element;
+            }
+            return element;
+        });
+        updateView(currentMode);
+        updateStorage();
+    }
+    if (mode == "delete") return deleteSingleItem;
+    if (mode == "active") return activeSingleItem;
+    return archiveSingleItem;
 }
