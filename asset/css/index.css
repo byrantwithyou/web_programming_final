@@ -12,27 +12,33 @@
     font-size: larger;
     font-style: italic;
     font-weight: bolder;
-    text-align: center; 
 }
 .flex {
     display: flex;
 }
-.spc-arnd {
+.space-around {
     justify-content: space-around;
 }
-.hght-15 {
+.ht-15 {
     height: 15px;
 }
 .center {
     text-align: center;
 }
-.flex-end{
+.justify-content-end{
     justify-content: flex-end;
 }
-.align-end {
+.align-items-end {
     align-items: flex-end;
 }
 .icon {
     height: 1em;
     margin-left: 5px;
+}
+.round {
+    border-radius: 300px;
+}
+.selected {
+    background: transparent;
+    border-color: burlywood;
 }

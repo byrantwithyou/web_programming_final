@@ -4,7 +4,7 @@ if (localStorage.getItem("items")) {
     items = JSON.parse(localStorage.getItem("items"));
 }
 
-document.getElementById("add_btn").onclick = function () {
+document.getElementById("add-btn").onclick = function () {
     if (document.getElementById("new-item").value.length == 0) {
         return;
     } else {
@@ -33,24 +33,24 @@ document.getElementById("show-archived").onclick = function () {
     currentMode = "archived";
     updateView(currentMode);
 }
-document.getElementById("clr-arch").onclick = function () {
+document.getElementById("clr-archived").onclick = function () {
     items = items.filter(item => item.state != "archived");
     updateView(currentMode);
     updateStorage();
 }
 
-document.getElementById("ar-all").onclick = function () {
+document.getElementById("archived-all").onclick = function () {
     items.forEach(item => item.state = "archived");
-    document.getElementById("ar-all").style.display = "none";
-    document.getElementById("ac-all").style.display = "flex";
+    document.getElementById("archived-all").style.display = "none";
+    document.getElementById("active-all").style.display = "flex";
     updateView(currentMode);
     updateStorage();
 }
 
-document.getElementById("ac-all").onclick = function () {
+document.getElementById("active-all").onclick = function () {
     items.forEach(item => item.state = "active");
-    document.getElementById("ar-all").style.display = "flex";
-    document.getElementById("ac-all").style.display = "none";
+    document.getElementById("archived-all").style.display = "flex";
+    document.getElementById("active-all").style.display = "none";
     updateView(currentMode);
     updateStorage();
 }
@@ -61,7 +61,11 @@ function updateStorage() {
 }
 
 function updateView(currentMode) {
-    document.getElementById("show-number-item").innerHTML = `${items.filter(
+    if (document.getElementsByClassName("selected").length) {
+        Array.from(document.getElementsByClassName("selected")).forEach(element => element.classList.remove("selected"));
+    }
+    document.getElementById(`show-${currentMode}`).classList.add("selected");
+    document.getElementById("show-item-number").innerHTML = `${items.filter(
         item => item.state == "active"
     ).length} active item(s) left`;
     if ("archived" == currentMode) {
@@ -76,21 +80,21 @@ function updateView(currentMode) {
 function showItems(items) {
     document.getElementById("items").innerHTML = "";
     for (item of items) {
-        let ui_state = {
+        let uiState = {
             active: item.state == "active"? "": "style=display:none",
             archived: item.state == "archived"? "" : "style=display:none;"
         }
         let template = String.raw
-            `<div id="item-container-active" class="flex spc-arnd align-end">
+            `<div id="item-container-active" class="flex space-around align-contents-end">
                 <span class="flex">${item.msg}</span>
-                <div class="hght-15"></div>
-                <div class="flex flex-end align-end" id=${item.id}>
-                    <img class="icon active" src="asset/img/undo-solid.svg" ${ui_state.archived}>
-                    <img class="icon archive" src="asset/img/check-circle-regular.svg" ${ui_state.active}>
+                <div class="ht-15"></div>
+                <div class="flex justify-content-end align-contents-end" id=${item.id}>
+                    <img class="icon active" src="asset/img/undo-solid.svg" ${uiState.archived}>
+                    <img class="icon archive" src="asset/img/check-circle-regular.svg" ${uiState.active}>
                     <img class="icon delete"  src="asset/img/trash-solid.svg">
                 </div>
             </div>
-            <div class="hght-15"></div>`
+            <div class="ht-15"></div>`
         document.getElementById("items").innerHTML += template;
     }
     Array.from(document.getElementsByClassName("delete")).forEach(element => element.onclick = generator(element.parentElement.id, "delete"));
